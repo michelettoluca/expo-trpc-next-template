@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 })
 
 export default function () {
-    const test = trpc.getUser.useQuery("test")
+    const test = trpc.user.create.useQuery()
 
     return (
         <View style={styles.container}>
