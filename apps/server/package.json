@@ -1,8 +1,11 @@
 {
     "name": "@repo/server",
     "version": "1.0.0",
-    "main": "node_modules/expo/AppEntry.js",
+    "main": "./src/index.ts",
     "private": true,
+    "exports": {
+        ".": "./src/index.ts"
+    },
     "scripts": {
         "dev": "nodemon src/index.ts"
     },
