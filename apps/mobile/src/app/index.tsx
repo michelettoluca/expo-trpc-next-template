@@ -1,11 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from "react-native"
-import { trpc } from "../lib"
+import { Pressable, Text } from "react-native"
 import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo"
 import { Link } from "expo-router"
-
-const SignOut = () => {
-    return <View></View>
-}
+import { trpc } from "../lib"
 
 export default function () {
     const { signOut } = useAuth()
@@ -14,10 +10,11 @@ export default function () {
     return (
         <>
             <SignedIn>
-                <Text>{JSON.stringify(user, null, 3)}</Text>
+                <Text>{JSON.stringify(user?.fullName, null, 3)}</Text>
                 <Pressable onPress={() => signOut()}>
                     <Text>Sign out</Text>
                 </Pressable>
+                <Aa />
             </SignedIn>
             <SignedOut>
                 <Text>You are Signed out</Text>
@@ -25,4 +22,9 @@ export default function () {
             </SignedOut>
         </>
     )
+}
+
+function Aa() {
+    const asd = trpc.user.create.useQuery()
+    return null
 }
