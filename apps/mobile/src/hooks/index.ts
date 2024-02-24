@@ -1,1 +1,1 @@
-export * from "./useWarmUpBrowser"
+export * from "./use-warm-up-browser"

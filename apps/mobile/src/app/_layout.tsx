@@ -11,6 +11,7 @@ export default function () {
             <TrpcProvider>
                 <View
                     style={{
+                        flex: 1,
                         paddingTop: insets.top,
                         paddingLeft: insets.left,
                         paddingBottom: insets.bottom,
