@@ -7,8 +7,8 @@ const t = initTRPC.context<Context>().create()
 export const router = t.router
 export const publicProcedure = t.procedure
 
-export const clerk = Clerk({
-    jwtKey: process.env.CLERK_JWT_TOKEN
+const clerk = Clerk({
+    jwtKey: process.env.CLERK_JWT_TOKEN // I'm not sure if this expires
 })
 
 export const loggedProcedure = publicProcedure.use(async (opts) => {

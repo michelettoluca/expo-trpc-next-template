@@ -1,21 +1,22 @@
 import { Slot } from "expo-router"
 import { AuthProvider, TrpcProvider } from "../providers"
-import { StyleSheet, View } from "react-native"
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center"
-    }
-})
+import { View } from "react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 export default function () {
+    const insets = useSafeAreaInsets()
+
     return (
         <AuthProvider>
             <TrpcProvider>
-                <View style={styles.container}>
+                <View
+                    style={{
+                        paddingTop: insets.top,
+                        paddingLeft: insets.left,
+                        paddingBottom: insets.bottom,
+                        paddingRight: insets.right
+                    }}
+                >
                     <Slot />
                 </View>
             </TrpcProvider>
