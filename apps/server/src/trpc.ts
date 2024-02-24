@@ -7,16 +7,12 @@ const t = initTRPC.context<Context>().create()
 export const router = t.router
 export const publicProcedure = t.procedure
 
-console.log(process.env.CLERK_JWT_TOKEN)
-
 export const clerk = Clerk({
     jwtKey: process.env.CLERK_JWT_TOKEN
 })
 
 export const loggedProcedure = publicProcedure.use(async (opts) => {
     const token = opts.ctx.token
-
-    console.log(token)
 
     if (!token) {
         throw new TRPCError({ code: "UNAUTHORIZED" })
