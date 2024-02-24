@@ -8,7 +8,7 @@ export const router = t.router
 export const publicProcedure = t.procedure
 
 const clerk = Clerk({
-    jwtKey: process.env.CLERK_JWT_TOKEN // I'm not sure if this expires
+    jwtKey: process.env.CLERK_JWT_TOKEN
 })
 
 export const loggedProcedure = publicProcedure.use(async (opts) => {
