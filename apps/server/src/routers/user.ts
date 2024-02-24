@@ -1,5 +1,8 @@
-import { router, publicProcedure } from "../trpc"
+import { router, loggedProcedure } from "../trpc"
 
 export const userRouter = router({
-    create: publicProcedure.query(() => "created")
+    create: loggedProcedure.query(({ ctx }) => {
+        console.log(ctx.decoded)
+        return "molto bene"
+    })
 })

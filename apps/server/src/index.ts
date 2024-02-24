@@ -2,8 +2,10 @@ import * as trpcExpress from "@trpc/server/adapters/express"
 import express from "express"
 import { appRouter } from "./routers"
 
-const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({})
-type Context = Awaited<ReturnType<typeof createContext>>
+export const createContext = ({ req }: trpcExpress.CreateExpressContextOptions) => ({
+    token: req.headers.authorization
+})
+export type Context = Awaited<ReturnType<typeof createContext>>
 
 const app = express()
 

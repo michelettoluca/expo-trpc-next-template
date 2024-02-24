@@ -2,19 +2,26 @@ import { Pressable, Text } from "react-native"
 import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo"
 import { Link } from "expo-router"
 import { trpc } from "../lib"
+import { useState } from "react"
 
 export default function () {
     const { signOut } = useAuth()
     const { user } = useUser()
 
+    const [aa, setAa] = useState(true)
+
+    function toggle() {
+        setAa(!aa)
+    }
+
     return (
         <>
             <SignedIn>
                 <Text>{JSON.stringify(user?.fullName, null, 3)}</Text>
-                <Pressable onPress={() => signOut()}>
+                <Pressable onPress={() => toggle()}>
                     <Text>Sign out</Text>
                 </Pressable>
-                <Aa />
+                {aa && <Aa />}
             </SignedIn>
             <SignedOut>
                 <Text>You are Signed out</Text>
@@ -26,5 +33,5 @@ export default function () {
 
 function Aa() {
     const asd = trpc.user.create.useQuery()
-    return null
+    return <Text>{JSON.stringify(asd.data, null, 3)}</Text>
 }

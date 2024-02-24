@@ -17,8 +17,6 @@ export function TrpcProvider({ children }: React.PropsWithChildren) {
                     async headers() {
                         const authToken = await getToken()
 
-                        console.log(authToken)
-
                         return {
                             Authorization: authToken ?? undefined
                         }
