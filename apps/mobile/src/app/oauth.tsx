@@ -3,7 +3,6 @@ import * as WebBrowser from "expo-web-browser"
 import { Pressable, Text } from "react-native"
 import { useOAuth } from "@clerk/clerk-expo"
 import { useWarmUpBrowser } from "../hooks/use-warm-up-browser"
-import { trpc } from "../lib"
 
 WebBrowser.maybeCompleteAuthSession()
 

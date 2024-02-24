@@ -1,25 +1,28 @@
 import { Pressable, Text } from "react-native"
-import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo"
+import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo"
 import { Link } from "expo-router"
 import { trpc } from "../lib"
 
+import * as SecureStorage from "expo-secure-store"
+
 export default function () {
-    const { user } = useUser()
     const { signOut } = useAuth()
 
     const { data } = trpc.user.findAll.useQuery()
 
     return (
         <>
+            <Text>{data?.length ?? "empty"}</Text>
+            <Text>{SecureStorage.getItem("userId")}</Text>
             <SignedIn>
-                {data?.map((user) => <Text key={user.accountId}>{JSON.stringify(user, null, 3)}</Text>)}
+                <Text>You are signed in</Text>
                 <Pressable onPress={() => signOut()}>
                     <Text>Sign out</Text>
                 </Pressable>
             </SignedIn>
             <SignedOut>
-                <Text>You are Signed out</Text>
-                <Link href={"/o-auth"}>Sign in</Link>
+                <Text>You are signed out</Text>
+                <Link href={"/oauth"}>Sign in</Link>
             </SignedOut>
         </>
     )
