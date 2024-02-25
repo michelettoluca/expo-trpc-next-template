@@ -2,7 +2,7 @@ import { z } from "zod"
 import { router, loggedProcedure, publicProcedure } from "../trpc"
 import { prisma } from "../prisma"
 
-const findAccountById = publicProcedure.input(z.string()).query(async ({ input }) => {
+const findByAccountId = publicProcedure.input(z.string()).query(async ({ input }) => {
     return await prisma.user.findUnique({
         where: {
             accountId: input
@@ -15,6 +15,6 @@ const findAll = publicProcedure.query(async () => {
 })
 
 export const userRouter = router({
-    findAccountById,
+    findByAccountId,
     findAll
 })
