@@ -2,6 +2,7 @@ import { z } from "zod"
 import { router, publicProcedure } from "../trpc"
 import { prisma } from "../prisma"
 import { User } from "@prisma/client"
+import { waitUntilPresent } from "../utils"
 
 const findByAccountId = publicProcedure.input(z.string()).query(async ({ input }) => {
     return await prisma.user.findUnique({
@@ -24,19 +25,6 @@ const pollUser = publicProcedure
     .query(async ({ input }) => {
         return await waitUntilPresent(() => prisma.user.findUnique({ where: { accountId: input.accountId } }))
     })
-
-function waitUntilPresent<T>(callback: () => Promise<T>): Promise<T> {
-    return new Promise((resolve) => {
-        const interval = setInterval(async () => {
-            const match = await callback()
-
-            if (match) {
-                clearInterval(interval)
-                resolve(match)
-            }
-        }, 1000)
-    })
-}
 
 const deleteAll = publicProcedure.input(z.string()).mutation(async ({ input }) => {
     return await prisma.user.deleteMany({
