@@ -15,9 +15,7 @@ export function UserProvider({ children }: PropsWithChildren) {
     const { userId, isSignedIn, signOut, isLoaded } = useAuth()
     const utils = trpc.useUtils()
 
-    const { data } = trpc.user.findByAccountId.useQuery(userId!, { enabled: !!userId, staleTime: Infinity })
-
-    console.log(">>>", { isLoaded, isSignedIn, userId })
+    const { data } = trpc.user.pollUser.useQuery({ accountId: userId! }, { enabled: Boolean(userId) })
 
     if (isLoaded && !isSignedIn) {
         return <Redirect href="/sign-in" />

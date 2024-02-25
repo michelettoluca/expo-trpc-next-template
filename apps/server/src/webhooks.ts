@@ -3,7 +3,13 @@ import { Request, Response } from "express"
 import { Webhook } from "svix"
 import { prisma } from "./prisma"
 
-export async function handleClerkWebhooks(req: Request, res: Response) {
+const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
+
+if (!WEBHOOK_SECRET) {
+    throw new Error("You need a WEBHOOK_SECRET in your .env")
+}
+
+export const handleClerkWebhooks = async (req: Request, res: Response) => {
     const { headers, body } = req
 
     const svix_id = headers["svix-id"] as string
@@ -14,12 +20,6 @@ export async function handleClerkWebhooks(req: Request, res: Response) {
         return new Response("Error occured -- no svix headers", {
             status: 400
         })
-    }
-
-    const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
-
-    if (!WEBHOOK_SECRET) {
-        throw new Error("You need a WEBHOOK_SECRET in your .env")
     }
 
     const webhook = new Webhook(WEBHOOK_SECRET)
@@ -66,6 +66,8 @@ async function handleClerkEvent(event: WebhookEvent) {
 }
 
 async function handleUserCreate(event: UserWebhookEvent) {
+    console.log(">>> handleUserCreate")
+
     await prisma.user.create({
         data: {
             accountId: event.data.id!
@@ -78,9 +80,23 @@ async function handleUserUpdate(event: UserWebhookEvent) {
 }
 
 async function handleUserDelete(event: UserWebhookEvent) {
-    await prisma.user.delete({
+    const accountId = event.data.id
+
+    const user = await prisma.user.findUnique({
         where: {
-            accountId: event.data.id!
+            accountId
         }
     })
+
+    if (!user) {
+        return false
+    }
+
+    await prisma.user.delete({
+        where: {
+            accountId
+        }
+    })
+
+    return true
 }
