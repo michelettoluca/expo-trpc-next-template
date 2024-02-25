@@ -1,17 +1,10 @@
-import { useAuth } from "@clerk/clerk-expo"
-import { Redirect, Stack } from "expo-router"
-import { Text } from "react-native"
+import { Stack } from "expo-router"
+import { UserProvider } from "../../context"
 
 export default function AppLayout() {
-    const { isLoaded, isSignedIn } = useAuth()
-
-    if (!isLoaded) {
-        return <Text>Loading...</Text>
-    }
-
-    if (!isSignedIn) {
-        return <Redirect href="/sign-in" />
-    }
-
-    return <Stack />
+    return (
+        <UserProvider>
+            <Stack />
+        </UserProvider>
+    )
 }

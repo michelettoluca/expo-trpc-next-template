@@ -1,12 +1,14 @@
-import { useAuth } from "@clerk/clerk-expo"
 import { Pressable, Text } from "react-native"
+import { useUserContext } from "../../context"
 
 export default function () {
-    const { signOut } = useAuth()
+    const { id, signOut } = useUserContext()
 
     return (
         <Pressable style={{ padding: 16 }} onPress={() => signOut()}>
-            <Text>App</Text>
+            <Text>
+                {">>>"} {id}
+            </Text>
         </Pressable>
     )
 }
